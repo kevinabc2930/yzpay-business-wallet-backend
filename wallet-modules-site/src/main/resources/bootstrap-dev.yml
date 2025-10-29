@@ -1,0 +1,21 @@
+# Spring
+spring:
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: @nacos.server.dev@
+        namespace: @nacos.namespace.dev@
+      config:
+        # 配置中心地址
+        server-addr: @nacos.server.dev@
+        namespace: @nacos.namespace.dev@
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+logging:
+  level:
+    org.springframework.amqp.rabbit: DEBUG

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.ruoyi</groupId>
+        <artifactId>ruoyi-wallet-site</artifactId>
+        <version>3.6.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>wallet-modules-site-api</artifactId>
+
+    <description>
+        business-modules-wallet-api钱包模块
+    </description>
+    <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>${mybatis-plus.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- RuoYi Common Core-->
+        <dependency>
+            <groupId>com.ruoyi.parent</groupId>
+            <artifactId>ruoyi-common-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.ruoyi</groupId>
+                    <artifactId>ruoyi</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+</project>
