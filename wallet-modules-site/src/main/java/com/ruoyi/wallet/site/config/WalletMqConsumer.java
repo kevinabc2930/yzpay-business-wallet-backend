@@ -1,26 +1,17 @@
 package com.ruoyi.wallet.site.config;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.lock.annotation.Lock4j;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.dto.RequestDTO;
 import com.ruoyi.member.api.constants.MemberMqKey;
 import com.ruoyi.member.api.dto.MemberCreateDTO;
-import com.ruoyi.wallet.site.domain.Wallet;
+import com.ruoyi.wallet.api.constants.WalletMqKey;
+import com.ruoyi.wallet.api.dto.BalanceChangeDTO;
 import com.ruoyi.wallet.site.service.IWalletService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.DefaultClassMapper;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +41,21 @@ public class WalletMqConsumer {
             log.error("创建用户同步钱包,处理异常", e);
         }
     }
-
+    /**
+     * 账变请求消息消费
+     */
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(value = WalletMqKey.MQ_WALLET_BALANCE_QUEUE, durable = "true", autoDelete = "false", exclusive = "false"),
+            key = WalletMqKey.MQ_WALLET_BALANCE_CHANGE_ROUTING_KEY,
+            exchange = @Exchange(name = WalletMqKey.MQ_WALLET_BALANCE_CHANGE_EXCHANGE, type = ExchangeTypes.TOPIC))
+            , concurrency = "4-16")
+    public void balanceChange(RequestDTO<BalanceChangeDTO> request) {
+        try {
+            BalanceChangeDTO balanceChangeDTO = request.getData();
+            log.info("账变请求,收到消息：{}", JSONObject.toJSONString(balanceChangeDTO));
+            walletService.balanceChange(balanceChangeDTO);
+        } catch (Exception e) {
+            log.error("账变请求,处理异常", e);
+        }
+    }
 
 }

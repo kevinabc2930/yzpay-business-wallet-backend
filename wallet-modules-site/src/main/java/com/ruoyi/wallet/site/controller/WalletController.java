@@ -1,22 +1,24 @@
 package com.ruoyi.wallet.site.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.dto.LoginMember;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.wallet.api.RemoteWalletService;
-import com.ruoyi.wallet.api.dto.MemberBalanceChangeDTO;
+import com.ruoyi.wallet.api.dto.BalanceChangeDTO;
+import com.ruoyi.wallet.api.dto.BalanceRecordVO;
 import com.ruoyi.wallet.api.dto.WalletVO;
 import com.ruoyi.wallet.site.domain.Wallet;
+import com.ruoyi.wallet.site.service.IBalanceRecordService;
 import com.ruoyi.wallet.site.service.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,6 +35,9 @@ public class WalletController extends BaseController implements RemoteWalletServ
 
     @Autowired
     IWalletService walletService;
+
+    @Autowired
+    IBalanceRecordService iBalanceRecordService;
 
 
     /**
@@ -58,6 +63,15 @@ public class WalletController extends BaseController implements RemoteWalletServ
         return R.ok(voList.stream().collect(Collectors.toMap(WalletVO::getCurrency, e->e)));
     }
 
+    /**
+     * 查询账变记录
+     * @return 结果
+     */
+    @Override
+    public R<List<BalanceRecordVO>> getBalanceRecord(@RequestParam("siteId") Long siteId, @RequestParam("memberId") Long memberId, @RequestParam("businessId") Integer businessId, @RequestParam("startTime") Date startTime, @RequestParam("endTime") Date endTime, @RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
+        return R.ok(iBalanceRecordService.getBalanceRecord(siteId, memberId, businessId, startTime ,endTime));
+    }
+
 
     /**
      * 余额
@@ -80,8 +94,8 @@ public class WalletController extends BaseController implements RemoteWalletServ
      * @return 返回结果
      */
     @PostMapping("/balance")
-    public R<BigDecimal> balance(@RequestBody @Valid MemberBalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
-        BigDecimal result = walletService.updateMemberWallet(balanceDTO);
+    public R<BigDecimal> balance(@RequestBody @Valid BalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
+        BigDecimal result = walletService.balanceChange(balanceDTO);
         return R.ok(result);
     }
 

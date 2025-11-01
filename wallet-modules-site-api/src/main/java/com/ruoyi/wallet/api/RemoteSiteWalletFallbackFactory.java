@@ -1,7 +1,8 @@
 package com.ruoyi.wallet.api;
 
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.wallet.api.dto.MemberBalanceChangeDTO;
+import com.ruoyi.wallet.api.dto.BalanceChangeDTO;
+import com.ruoyi.wallet.api.dto.BalanceRecordVO;
 import com.ruoyi.wallet.api.dto.WalletVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,8 @@ import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,13 +37,18 @@ public class RemoteSiteWalletFallbackFactory implements FallbackFactory<RemoteWa
             }
 
             @Override
-            public R<BigDecimal> balance(MemberBalanceChangeDTO balanceDTO, String source) {
+            public R<BigDecimal> balance(BalanceChangeDTO balanceDTO, String source) {
                 return R.fail("修改钱包失败:" + throwable.getMessage());
             }
 
             @Override
             public R<Map<String, WalletVO>> getWallets(Long siteId, Long memberId, String source) {
-                return null;
+                return R.fail("获取钱包失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<List<BalanceRecordVO>> getBalanceRecord(Long siteId, Long memberId, Integer businessId, Date startTime, Date endTime, String source) {
+                return R.fail("获取钱包账变记录失败:" + throwable.getMessage());
             }
         };
     }

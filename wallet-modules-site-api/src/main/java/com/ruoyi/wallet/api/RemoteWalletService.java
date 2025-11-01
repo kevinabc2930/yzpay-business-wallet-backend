@@ -4,14 +4,15 @@ import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.context.OpenFeignCongregation;
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.core.dto.LoginMember;
-import com.ruoyi.wallet.api.dto.MemberBalanceChangeDTO;
+import com.ruoyi.wallet.api.dto.BalanceChangeDTO;
+import com.ruoyi.wallet.api.dto.BalanceRecordVO;
 import com.ruoyi.wallet.api.dto.WalletVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +34,12 @@ public interface RemoteWalletService {
 
 
     /**
-     * 玩家余额变动
+     * 余额变动
      *
      * @return 结果
      */
     @PostMapping("/balance")
-    R<BigDecimal> balance(@RequestBody MemberBalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    R<BigDecimal> balance(@RequestBody BalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 获取用户钱包s
@@ -47,5 +48,13 @@ public interface RemoteWalletService {
      */
     @GetMapping("/getWallets")
     public R<Map<String, WalletVO>> getWallets(@RequestParam("siteId") Long siteId, @RequestParam("memberId") Long memberId, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 获取用户账变记录
+     *
+     * @return 结果
+     */
+    @GetMapping("/getBalanceRecord")
+    public R<List<BalanceRecordVO>> getBalanceRecord(@RequestParam("siteId") Long siteId, @RequestParam("memberId") Long memberId, @RequestParam("businessId") Integer businessId, @RequestParam("startTime") Date startTime, @RequestParam("endTime") Date endTime, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
 }

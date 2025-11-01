@@ -10,25 +10,26 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value = "coin_record", description = "账变记录")
-@TableName("site_coin_record")
-public class CoinRecord extends BaseEntity {
+@ApiModel(value = "balance_record", description = "账变记录")
+@TableName("balance_record")
+public class BalanceRecord extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long siteId;
     private String currency;
     private Long memberId;
-    private Integer type;
+    private Integer businessId;
     private String orderNo;
+    private String amount;
     private String beforeAmount;
     private String afterAmount;
-    private String amount;
-    private String coinsTimeLong;
+    private String timeLong;
     private String ext;
-
     @TableLogic
     private String delFlag;
 

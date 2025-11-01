@@ -10,13 +10,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value = "currency", description = "货币")
-@TableName("site_currency")
+@TableName("currency")
 public class Currency extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;

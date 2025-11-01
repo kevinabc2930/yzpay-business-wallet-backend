@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value = "wallet", description = "钱包")
-@TableName("site_wallet")
+@TableName("wallet")
 public class Wallet extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;

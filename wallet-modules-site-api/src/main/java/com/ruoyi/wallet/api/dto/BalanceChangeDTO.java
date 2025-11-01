@@ -15,13 +15,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Map;
 
 @Data
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @Slf4j
-public class MemberBalanceChangeDTO implements Serializable {
+public class BalanceChangeDTO implements Serializable {
     private static final long serialVersionUID = 7505317431350714801L;
 
     /**
@@ -30,7 +29,7 @@ public class MemberBalanceChangeDTO implements Serializable {
     @NotNull
     private Long memberId;
     /**
-     * 玩家id
+     * 站点id
      */
     @NotNull
     private Long siteId;
@@ -43,11 +42,12 @@ public class MemberBalanceChangeDTO implements Serializable {
      * 账变类型
      */
     @NotNull
-    private Integer op;
+    private Integer businessId;
     /**
      * 币种
      */
     @NotBlank
     private String currency;
-
+    private String orderNo;
+    private String ext;
 }
