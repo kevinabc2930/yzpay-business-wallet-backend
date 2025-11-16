@@ -93,8 +93,8 @@ public class WalletController extends BaseController implements RemoteWalletServ
      * @param balanceDTO 请求参数
      * @return 返回结果
      */
-    @PostMapping("/balance")
-    public R<BigDecimal> balance(@RequestBody @Valid BalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
+    @PostMapping("/transform")
+    public R<BigDecimal> transform(@RequestBody @Valid BalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
         BigDecimal result = walletService.balanceChange(balanceDTO);
         return R.ok(result);
     }

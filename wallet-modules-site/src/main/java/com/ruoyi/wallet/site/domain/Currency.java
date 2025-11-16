@@ -20,7 +20,9 @@ public class Currency extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long siteId;
+    private String type;
     private String currency;
+    private String symbol;
     @TableLogic
     private String delFlag;
 

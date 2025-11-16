@@ -100,6 +100,9 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
                 throw new ServiceException("10001", "余额不足");
             }
         }
+        if (balanceChangeDTO.getAmount().compareTo(BigDecimal.ZERO) == 0) { //  变更金额是0的话，取出全部余额
+            balanceChangeDTO.setAmount(wallet.getBalance().negate());
+        }
         BalanceRecord balanceRecord = new BalanceRecord();
         balanceRecord.setSiteId(balanceChangeDTO.getSiteId());
         balanceRecord.setMemberId(balanceChangeDTO.getMemberId());
@@ -121,6 +124,6 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
         //发送账变记录到mq，数据服务消费
         rabbitTemplate.convertAndSend(WalletMqKey.MQ_WALLET_BALANCE_CHANGE_RECORD_EXCHANGE, WalletMqKey.MQ_WALLET_BALANCE_CHANGE_RECORD_ROUTING_KEY,
                 RequestDTO.build(balanceRecordDTO));
-        return wallet.getBalance();
+        return balanceChangeDTO.getAmount();
     }
 }

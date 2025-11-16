@@ -37,7 +37,7 @@ public class RemoteSiteWalletFallbackFactory implements FallbackFactory<RemoteWa
             }
 
             @Override
-            public R<BigDecimal> balance(BalanceChangeDTO balanceDTO, String source) {
+            public R<BigDecimal> transform(BalanceChangeDTO balanceDTO, String source) {
                 return R.fail("修改钱包失败:" + throwable.getMessage());
             }
 

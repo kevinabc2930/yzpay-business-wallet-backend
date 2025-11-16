@@ -42,7 +42,7 @@ public class BalanceChangeDTO implements Serializable {
      * 账变类型
      */
     @NotNull
-    private Integer businessId;
+    private Long businessId;
     /**
      * 币种
      */

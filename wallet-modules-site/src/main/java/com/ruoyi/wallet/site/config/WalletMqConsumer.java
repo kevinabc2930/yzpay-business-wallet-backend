@@ -36,7 +36,7 @@ public class WalletMqConsumer {
         try {
             MemberCreateDTO memberCreateDTO = request.getData();
             log.info("创建用户同步钱包,收到消息：{}", JSONObject.toJSONString(memberCreateDTO));
-            walletService.getWallets(memberCreateDTO.getSiteId(), memberCreateDTO.getId());
+            //walletService.getWallets(memberCreateDTO.getSiteId(), memberCreateDTO.getId());
         } catch (Exception e) {
             log.error("创建用户同步钱包,处理异常", e);
         }

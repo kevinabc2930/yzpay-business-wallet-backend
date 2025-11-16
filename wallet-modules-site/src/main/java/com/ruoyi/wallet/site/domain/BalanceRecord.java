@@ -23,7 +23,7 @@ public class BalanceRecord extends BaseEntity {
     private Long siteId;
     private String currency;
     private Long memberId;
-    private Integer businessId;
+    private Long businessId;
     private String orderNo;
     private String amount;
     private String beforeAmount;

@@ -38,8 +38,8 @@ public interface RemoteWalletService {
      *
      * @return 结果
      */
-    @PostMapping("/balance")
-    R<BigDecimal> balance(@RequestBody BalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    @PostMapping("/transform")
+    R<BigDecimal> transform(@RequestBody BalanceChangeDTO balanceDTO, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 获取用户钱包s
